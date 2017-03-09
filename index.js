@@ -22,7 +22,13 @@ minSearch = function(offers) {
 var minPrice = Math.min.apply(Math, prices);
 var result = $.grep(offers, function(e){ return e.TotalPriceEUR == minPrice; });
 console.log("A legkisebb euroban számolva keresésé alapján : " + result[0]);
+displayResult(result[0]);
+
 }
+
+displayResult = function(result) {
+    $('<a>', {href:result.Deeplink, text:' click me to get the ticket ' + result.TotalPrice}).appendTo('body');
+} 
 
 getData = function(searchId) {
     setTimeout(function() {
@@ -32,7 +38,8 @@ getData = function(searchId) {
             success: function(data){
             console.log("Min Price : " + data.Summary.MinPrice);
             var minResult = $.grep(data.Offers, function(e){ return e.TotalPriceEUR == data.Summary.MinPrice; });
-            console.log("A legkisebb a summary min price alapján : " + minResult[0])
+            console.log("A legkisebb a summary min price alapján : " + minResult[0].TotalPriceEUR);
+            displayResult(minResult[0]);
             minSearch(data.Offers);
             }
         })
