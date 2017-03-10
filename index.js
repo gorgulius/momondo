@@ -1,4 +1,4 @@
-var postData = {"AdultCount":1,"ChildAges":[],"TicketClass":"ECO","Segments":[{"Origin":"BUD","Destination":"ROM","Depart":"","Departure":"2017-04-23"},{"Origin":"ROM","Destination":"BUD","Depart":"","Departure":"2017-05-09"}],"Culture":"en-XX","Mix":"Segments","Market":"HU","DirectOnly":false,"IncludeNearby":false};
+var postData = {"AdultCount":1,"ChildAges":[],"TicketClass":"ECO","Segments":[{"Origin":"BUD","Destination":"ROM","Depart":"2017-04-23T22:00:00.000Z","Departure":"2017-04-23"},{"Origin":"ROM","Destination":"BUD","Depart":"2017-05-09T22:00:00.000Z","Departure":"2017-05-09"}],"Culture":"en-XX","Mix":"Segments","Market":"HU","DirectOnly":false,"IncludeNearby":false};
 
 postData.Segments[0].Origin = "BUD";
 postData.Segments[0].Destination = "SYD";
@@ -21,7 +21,13 @@ minSearch = function(offers) {
 
 var minPrice = Math.min.apply(Math, prices);
 var result = $.grep(offers, function(e){ return e.TotalPriceEUR == minPrice; });
-console.log("A legkisebb euroban számolva keresésé alapján : " + result[0].Deeplink + " TotalPriceEUR : " + result[0].TotalPriceEUR);
+console.log("A legkisebb euroban számolva keresésé alapján : " + result[0]);
+displayResult(result[0]);
+
+}
+
+displayResult = function(result) {
+    $('<a>', {href:result.Deeplink, text:' click me to get the ticket ' + result.TotalPrice}).appendTo('body');
 }
 
 getData = function(searchId) {
@@ -32,7 +38,8 @@ getData = function(searchId) {
             success: function(data){
             console.log("Min Price : " + data.Summary.MinPrice);
             var minResult = $.grep(data.Offers, function(e){ return e.TotalPriceEUR == data.Summary.MinPrice; });
-            console.log("A legkisebb a summary min price alapján : " + minResult[0].Deeplink + " TotalPriceEUR : " + minResult[0].TotalPriceEUR)
+            console.log("A legkisebb a summary min price alapján : " + minResult[0].TotalPriceEUR);
+            displayResult(minResult[0]);
             minSearch(data.Offers);
             }
         })
