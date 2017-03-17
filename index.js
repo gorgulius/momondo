@@ -1,4 +1,4 @@
-minSearch = function(offers) {
+var minSearch = function(offers) {
     var prices = [];
     for (i = 0; i < offers.length; i++) { 
     if (offers[i].TotalPriceEUR > 0) prices.push(offers[i].TotalPriceEUR);
@@ -11,11 +11,11 @@ displayResult(result[0]);
 
 }
 
-displayResult = function(result) {
+var displayResult = function(result) {
     $('#myTable').append('<tr><td><a href="' + result.Deeplink + '">click me to get the ticket</td><td>Price : ' + result.TotalPrice +' HUF</td></tr>');    
 }
 
-getData = function(searchId) {
+var getData = function(searchId) {
     setTimeout(function() {
         $.ajax({
             type: "GET",
@@ -31,9 +31,12 @@ getData = function(searchId) {
     }, 20000);
 }
 
-doThis = function () {
-    //2017-05-09 document.getElementsByName('fromDate')[0].value
+var doThis = function () {    
     var postData = {"AdultCount":1,"ChildAges":[],"TicketClass":"ECO","Segments":[{"Origin":"","Destination":"","Depart":"","Departure":""},{"Origin":"","Destination":"","Depart":"","Departure":""}],"Culture":"en-XX","Mix":"Segments","Market":"HU","DirectOnly":false,"IncludeNearby":false};
+    var airports = $.getJSON("src/json/airports2.json", function(data) {
+        var items = [];
+        
+    });
 
     postData.Segments[0].Origin = document.getElementsByName('from')[0].value || "BUD";
     postData.Segments[0].Destination = document.getElementsByName('to')[0].value || "SYD";
